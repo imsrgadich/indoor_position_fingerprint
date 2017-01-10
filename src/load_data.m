@@ -61,7 +61,42 @@ function [t, id, y, t_imu, id_imu, y_imu, t_wifi, id_wifi, y_wifi] = load_data(f
         10, 'DA:8A:9C:57:49:E2';
         11, 'CA:F0:7A:87:90:12';
         12, 'C3:6D:AB:9F:8B:04';
+        13, 'F2:7C:B0:2D:B2:1B';
     };
+
+    % Lookup table for WIFI <-> MAC (as per WIFI present in the building)
+    % Mobile app ask user to select WIFI networks mostly used in the
+    % location.
+    wifi = {
+        1,  '24:01:c7:b9:1c:8f'; 
+        2,  '24:01:c7:b9:1c:8d';
+        3,  '00:27:0d:2f:f5:ff';
+        4,  '00:27:0d:2f:f5:fd';
+        5,  '24:01:c7:b9:1c:80';
+        6,  '24:01:c7:b9:1c:82';
+        7,  '00:27:0d:08:c1:4f';
+        8,  '00:27:0d:2f:e6:dd';
+        9,  '24:01:c7:91:69:5f';
+        10, '24:01:c7:b9:1c:8e';
+        11, '00:27:0d:2f:f5:fe';
+        12, '24:01:c7:b9:1c:81';
+        13, '24:01:c7:91:69:5d';
+        14, '00:27:0d:08:c1:4e';
+        15, '24:01:c7:91:69:5e';
+        16, 'd4:d7:48:81:e9:23';
+        17, '00:27:0d:2f:f4:61';
+        18, '24:01:c7:91:69:50';
+        19, 'd4:d7:48:81:e9:22';
+        20, '00:27:0d:2f:f4:6d';
+        21, 'd4:d7:48:81:e9:20';
+        22, '00:27:0d:2f:f4:60';
+        23, '00:27:0d:2f:e6:d1';
+        24, '00:27:0d:08:c1:41';
+        25, '00:27:0d:08:c1:40';
+        26, '00:27:0d:2f:f4:6f';
+        27, '00:27:0d:08:9b:6e';        
+    };
+    
 
     % Templates for the different types of data in the file
     formats = {
