@@ -9,9 +9,13 @@
 - A particle filter was built for the same.
 - Results were evaluated.
 
-Beacons used were from kontact.io 
+Beacons used were from kontact.io
+
 Product link: https://store.kontakt.io/our-products/27-beacon.html
-Measurements app: SenseServe app, Indoor Atlas.
-Mobile platform: Android
+
+Measurements app: Indoor Atlas proprietary app *SenseServe*
+
+Mobile platform: Android 6.0.1
+
 Mobile device: Nexus 6P
 
