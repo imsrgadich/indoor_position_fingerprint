@@ -1,6 +1,6 @@
-# indoor_position_fingerprint
+# Indoor Positioning
 
-A simple fingerprinting-based localization project:
+### A simple fingerprinting-based localization project:
 
 - Setting up the beacons in a corridor of size 30m x 2.35m. 
 - Creating the reference map by getting the RSS at predefined locations. Here, we took 20 measurements.
