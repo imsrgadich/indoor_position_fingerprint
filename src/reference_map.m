@@ -22,8 +22,14 @@ text_files = {'1001_104748.txt';
               '1001_110437.txt';
               '1001_110659.txt';
               '1001_110758.txt';
-              '1001_110842.txt'};
+              '1001_110842.txt';
+              };
+
+% matrix for reference map: # predefined input locations based on the text
+% file and measurements [(x,y) + 13 beacons' RSS + 27 WIFI's RSS]
+measurements = zeros(size(text_files,1),42);
           
 for i = 1:20
-    [t, id, y, t_imu, id_imu, y_imu, t_wifi, id_wifi, y_wifi] = load_data(file);
+    [~, id, y, ~, ~, ~, ~, id_wifi, y_wifi] = load_data(text_files{i});
+    
 end
