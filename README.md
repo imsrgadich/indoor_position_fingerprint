@@ -22,5 +22,5 @@ Mobile device: Nexus 6P
 # Observations from Literature review:
 - *Drawback of fingerprinting* is that radiomap has to be computed when the circumstances change. This includes change in location of beacons (BLE or WiFi), restructuring of the of the indoor space. 
 
-- If certain MAC is not heard during some measurement it is put to minimum power device sensitivity level, here our beacon
+- If certain MAC is not heard during some measurement it is put to minimum power device sensitivity level, here our BLE beacon has `-93 dB` as sensitivity level and wifi are assumed to have `-110 dB`. Even the test data is replaced with the same constants.
 
