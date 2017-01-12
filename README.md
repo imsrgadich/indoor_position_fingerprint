@@ -20,7 +20,12 @@ Mobile platform: Android 6.0.1
 Mobile device: Nexus 6P
 
 # Observations from Literature review:
+### Locating User Equipments and Access Points using RSSI Fingerprints: A Gaussian Process Approach. Yiu et al.
+
 - *Drawback of fingerprinting* is that radiomap has to be computed when the circumstances change. This includes change in location of beacons (BLE or WiFi), restructuring of the of the indoor space. 
 
 - If certain MAC is not heard during some measurement it is put to minimum power device sensitivity level, here our BLE beacon has `-93 dB` as sensitivity level and wifi are assumed to have `-110 dB`. Even the test data is replaced with the same constants.
 
+### Wi-Fi Fingerprint-Based Indoor Positioning: Recent Advances and Comparisons. He et al.
+
+- *Usage of temporal and spatial signal patterns*: in order to mitigate the error due to signal fluctuation, one method is to use the correlation between Wi-Fi signals and observable data like walking trajectory, indoor building structure and AP locations
