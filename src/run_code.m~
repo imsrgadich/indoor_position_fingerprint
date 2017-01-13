@@ -36,15 +36,9 @@ text_files = {'../data/train/1001_104748.txt';
 
 %% Task 2: Radio map: estimating the RSS values all the other locations.
 % For this we are using GP regression using GPStuff.
-
 % predictive locations
 x = 0:0.1:40;
 y = -3:0.1:5.35;
-
-
-
-
-
 
 
 

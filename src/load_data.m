@@ -108,8 +108,8 @@ function [t, id_beacon, y, t_imu, id_imu, y_imu, t_wifi, id_wifi, y_wifi] = load
     % Templates for the different types of data in the file
     formats = {
         '%f%f%f%f%f';       % Regular 3-axial sensor data
-        '%f%f%s%s%d%d%d';   % WiFi
         '%f%f%s%s%f%d%d%s'; % Bluetooth
+        '%f%f%s%s%d%d%d';   % WiFi
     };
 
     %% Load the Data
