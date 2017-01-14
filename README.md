@@ -39,9 +39,7 @@
       - SVM and LDA give better localization accuracy with higher computational cost.
       - Probabilistic algorithms (PA) use statistical inference, e.g., maximum likelihood, KL divergence, EM, GP.
       - One advantage is that we get uncertainty of estimates using these methods.
-      - 
       
 ### Revisiting Gaussian Process Regression Modeling for Localization in Wireless Sensor Networks.
 
 - Fingerprinting values must be taken in the same location with out a human, risk of signal attenuation. If human is recording the measurements, then measurements must be taken in four different directions and average them.
-- 
