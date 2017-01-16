@@ -5,7 +5,7 @@
 - Setting up the beacons in a corridor of size 30m x 2.35m. 
 - Creating the reference map by getting the RSS at predefined locations. Here, we took 20 measurements.
 - Developed an interpolating observation model. (k-NN and simple GP regression: https://www.robots.ox.ac.uk/~mebden/reports/GPtutorial.pdf)
-- Evaluate the results.
+- Evaluate the results by using the model on the test data.
 
 ### Other details:
 - Beacons used were from kontact.io.
