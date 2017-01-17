@@ -35,6 +35,6 @@
 - Fingerprinting values must be taken in the same location with out a human, risk of signal attenuation. If human is recording the measurements, then measurements must be taken in four different directions and average them.
 - Non parametric method but with parametric mean and covariance function. If there is enough evidence avialable(measurements), the model will override the avialable 
 
-## Helvar application:
+## Application:
 - BLE beacons RSS values in addition to proximity motion detector data, Active ahead predictive data (Active+ data, if lights are dim then it is less likely that someone is around) can improve the accuracy of the position.
 - So need to create a solution which doesn't need creating of radio map even with slight change in the position of things inside a room, if incase fingerprinting is used.
