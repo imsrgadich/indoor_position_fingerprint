@@ -13,3 +13,5 @@
 - Measurements app: Indoor Atlas proprietary app *SenseServe*.
 - Mobile platform: Android 6.0.1
 - Mobile device: Nexus 6P
+- Not considering the wifi data as the time-stamp recorded is wrong. 
+
