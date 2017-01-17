@@ -41,7 +41,7 @@ text_files = {'../data/train/1001_104748.txt';
 x = 0:0.1:40;
 y = -3:0.1:5.35;
 
-
+% Check demo_regression1 from GPStuff!
 
 
 
