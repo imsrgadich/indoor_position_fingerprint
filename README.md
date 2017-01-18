@@ -17,7 +17,7 @@
 - Mobile device: Nexus 6P
 - Not considering the wifi data as the time-stamp recorded is wrong. 
 
-### Beacon positions with floor plan
+### Beacon positions with measurements on the floor plan 
 ![floor_plan](fig/beacons-position.jpg)
 
 
