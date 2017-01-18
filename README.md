@@ -13,3 +13,6 @@
 - Measurements app: Indoor Atlas proprietary app *SenseServe*.
 - Mobile platform: Android 6.0.1
 - Mobile device: Nexus 6P
+
+### Beacon positions with floor plan
+![floor_plan](fig/beacons-position.jpg)
