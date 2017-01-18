@@ -35,9 +35,34 @@
 - Fingerprinting values must be taken in the same location with out a human, risk of signal attenuation. If human is recording the measurements, then measurements must be taken in four different directions and average them.
 - Non parametric method but with parametric mean and covariance function. If there is enough evidence avialable(measurements), the model will override the avialable 
 
-## Application:
+### Performance evaluation of Indoor Localization Techniques Based on RF Power measurements from Active or Passive Devices. De Luca et al.
+- Line of Sight
+- Avoid collision of signals. 
+- Multiwall path loss model. refer **Channelmodels for IEEE 802.11b indoor system design**, Borrelli et al.
+- Parameters for the model.
+
+![multi-wall-path-loss](image/multiwall-model-parameters.png)
+
+- So, passive systems can be designed to avoid collision among the signals . (Check **K. Finkenzeller, RFID Handbook: Fundamentals and Applications in Contactless Smart Cards and Identification** for more details)
+- Active systems: BLE beacons vs Passive systems: RFID.
+- 
+
+
+## Suggestions for the project:
 - BLE beacons RSS values in addition to proximity motion detector data, Active ahead predictive data (Active+ data, if lights are dim then it is less likely that someone is around) can improve the accuracy of the position.
 - So need to create a solution which doesn't need creating of radio map even with slight change in the position of things inside a room, if incase fingerprinting is used.
-- Use Chained Gaussian Processes for non-gaussian data.
+- Use Chained Gaussian Processes for non-gaussian data. (or warped GP's; **need to study**)
+- Signal collision avoidance system reaching the device. Will ensure correct measurement recording.
+- Take fingerprinting measurements in all 4 canonical directionals to compensate for the signal attenuation.
+- Can RFID can be deployed with BLE. Can make a hybrid of active and passive systems. [De Luca et al] Pros, cons: need to discuss.
+ 		- Passive system need centralized server, so extra cost. Not advisable. Can the 
+ 		- 
+- 
+
+
+## Doubts:
+- Does placement of BLE beacon on the ceiling mitigate the multipath effect?
+- So, with BLE beacon on the top (ceiling), should have no problems with line of sight?
+- Suggest strategy to get collision resolution?
 
 
