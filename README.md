@@ -18,7 +18,7 @@
 - Not considering the wifi data as the time-stamp recorded is wrong. 
 
 ### Beacon positions with measurements on the floor plan 
-![floor_plan](fig/beacons-position.jpg)
+![floor_plan](fig/beacons-position-measurement-reference.jpg)
 
 
 
