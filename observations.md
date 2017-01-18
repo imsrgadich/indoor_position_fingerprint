@@ -48,9 +48,12 @@
 - **With increase in BLE beacons the probability of localization error reduces due to power measurement noise and quantization effects, it cannot be reduced below a limiting value.**
 
 ###### Characterization of the measurement noise:
-- **"understanding of the power measurement errors due to the hardware in the terminal is important especially when the propagation map is made from experimantal data."**
-- So difference in the quality of sensors/measuring devices have to be accounted for.
-- 5dB of variation across different measuring devices. 
+	- "understanding of the power measurement errors due to the hardware in the terminal is important especially when the propagation map is made from experimantal data."
+	- So difference in the quality of sensors/measuring devices have to be accounted for.
+	- 5dB of variation across different measuring devices. 
+	- At a fixed position the measurement of RSS varies and has sd of 2.5dBm.
+
+- There is always a trade-off between number of AP's vs overlap of signals. For better accuracy, we need more AP's but at the cost of interfering signals.
 
 ## Suggestions for the project:
 - BLE beacons RSS values in addition to proximity motion detector data, Active ahead predictive data (Active+ data, if lights are dim then it is less likely that someone is around) can improve the accuracy of the position.
@@ -61,9 +64,9 @@
 - Can RFID can be deployed with BLE. Can make a hybrid of active and passive systems. [De Luca et al] Pros, cons: need to discuss.
  		
  		- Passive system need centralized server connected to smartphone, so extra cost. Not advisable. so, internet becomes a dependency
-- **MUST USE:** multiwall channel model as we have more thin walls between the beacons. It accounts for the propagation at 2.4 GHz.
-- So our model should be able to handle to variations across devices. So add a parameter to handle this. Gaussian Prior with standard deviation around 3 (or Student-t distribution with )
-
+- **MUST USE:** multiwall channel model as we have more thin walls between the beacons. It accounts for the propagation at 2.4 GHz. [De Luca et al]
+- So our model should be able to handle to variations across devices. So add a parameter to handle this. Gaussian Prior with standard deviation around 3 (or Student-t distribution with ....) [De Luca et al]
+- Handle the measurement variation(power fluctuation), it can have a sd of 2.5dBm. [De Luca et al]
 
 
 ## Doubts:
