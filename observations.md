@@ -23,9 +23,9 @@
 
 - **Motion assisted localization** - using the sensors present the device.
 
-- Deterministic and Probablistic methods are employed for localization. 
+- Deterministic and Probablistic methods are employed for localization.
       - Deterministic Algorithms (DA) use similarity metric like Euclidean distance, cosine similarity or Tanimato similarity for signal comparison.
-      - DA are used as they are easy to implement. e.g., k-NN 
+      - DA are used as they are easy to implement. e.g., k-NN
       - SVM and LDA give better localization accuracy with higher computational cost.
       - Probabilistic algorithms (PA) use statistical inference, e.g., maximum likelihood, KL divergence, EM, GP.
       - One advantage is that we get uncertainty of estimates using these methods.
@@ -45,8 +45,12 @@
 
 - So, passive systems can be designed to avoid collision among the signals . (Check **K. Finkenzeller, RFID Handbook: Fundamentals and Applications in Contactless Smart Cards and Identification** for more details)
 - Active systems: BLE beacons vs Passive systems: RFID.
-- 
+- **With increase in BLE beacons the probability of localization error reduces due to power measurement noise and quantization effects, it cannot be reduced below a limiting value.**
 
+###### Characterization of the measurement noise:
+- **"understanding of the power measurement errors due to the hardware in the terminal is important especially when the propagation map is made from experimantal data."**
+- So difference in the quality of sensors/measuring devices have to be accounted for.
+- 5dB of variation across different measuring devices. 
 
 ## Suggestions for the project:
 - BLE beacons RSS values in addition to proximity motion detector data, Active ahead predictive data (Active+ data, if lights are dim then it is less likely that someone is around) can improve the accuracy of the position.
@@ -55,14 +59,18 @@
 - Signal collision avoidance system reaching the device. Will ensure correct measurement recording.
 - Take fingerprinting measurements in all 4 canonical directionals to compensate for the signal attenuation.
 - Can RFID can be deployed with BLE. Can make a hybrid of active and passive systems. [De Luca et al] Pros, cons: need to discuss.
- 		- Passive system need centralized server, so extra cost. Not advisable. Can the 
- 		- 
-- 
+ 		
+ 		- Passive system need centralized server connected to smartphone, so extra cost. Not advisable. so, internet becomes a dependency
+- **MUST USE:** multiwall channel model as we have more thin walls between the beacons. It accounts for the propagation at 2.4 GHz.
+- So our model should be able to handle to variations across devices. So add a parameter to handle this. Gaussian Prior with standard deviation around 3 (or Student-t distribution with )
+
 
 
 ## Doubts:
 - Does placement of BLE beacon on the ceiling mitigate the multipath effect?
 - So, with BLE beacon on the top (ceiling), should have no problems with line of sight?
-- Suggest strategy to get collision resolution?
+- Suggest strategy to get collision resolution? [De Luca et al]
+- Complex ray-tracing techniques when compared to multiwall model. 
+
 
 

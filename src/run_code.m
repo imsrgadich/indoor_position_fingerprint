@@ -5,6 +5,8 @@
 % get locations
 load('../data/location.mat')
 
+plot()
+
 % training data from files
 text_files = get_training_data();
           
@@ -15,7 +17,7 @@ text_files = get_training_data();
 % test data: lets just take the mean of the data for now.
 test_data = get_test_mean_data();
 
-%% use k-NN for interpolating model
+%% use k-NN for interpolating model: k=1
 
 
 %% Task 2: Radio map: estimating the RSS values all the other locations.
