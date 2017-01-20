@@ -17,6 +17,8 @@ text_files = get_training_data();
 % test data: lets just take the mean of the data for now.
 test_data = get_test_mean_data();
 
+% TODO: interpolate the values.
+
 %% use k-NN for interpolating model: k=1
 
 

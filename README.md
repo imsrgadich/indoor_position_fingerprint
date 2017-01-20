@@ -21,5 +21,9 @@
 ![floor_plan](fig/beacons-position-measurement-reference.jpg)
 
 
+### Dynamic Model 
+- It was decided to use the coordinated turn model.
+
+
 
 
