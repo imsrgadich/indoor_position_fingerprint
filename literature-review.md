@@ -55,6 +55,7 @@
 
 - There is always a trade-off between number of AP's vs overlap of signals. For better accuracy, we need more AP's but at the cost of interfering signals.
 
+
 ## Suggestions for the project:
 - BLE beacons RSS values in addition to proximity motion detector data, Active ahead predictive data (Active+ data, if lights are dim then it is less likely that someone is around) can improve the accuracy of the position.
 - So need to create a solution which doesn't need creating of radio map even with slight change in the position of things inside a room, if incase fingerprinting is used.
@@ -67,6 +68,7 @@
 - **MUST USE:** multiwall channel model as we have more thin walls between the beacons. It accounts for the propagation at 2.4 GHz. [De Luca et al]
 - So our model should be able to handle to variations across devices. So add a parameter to handle this. Gaussian Prior with standard deviation around 3 (or Student-t distribution with ....) [De Luca et al]
 - Handle the measurement variation(power fluctuation), it can have a sd of 2.5dBm. [De Luca et al]
+- Include orientation of device. Kaemarungsi et al.
 
 
 ## Doubts:
@@ -75,5 +77,40 @@
 - Suggest strategy to get collision resolution? [De Luca et al]
 - Complex ray-tracing techniques when compared to multiwall model. 
 
+# Aki Meeting
 
+### Analysis of WLAN's received signal strength indication for indoor positioning location fingerprinting
+###### Characteristics of RSSI:
+- User orientation can have 5dBm of variation in RSSI measurement. so different orientation of mobile device w.r.t to access points can change mean value of RSSI. So, orientation shoul dbe also included.
+- RSSI values drastically changes in presence of other users or change in furniture of the room.
+- Movement of user causes fluctuation called small scale fading.
+- Movement of device also causes large fluctations
+- **Gaussian or log-normal** used to measure the variation in RSSI measurement.
+- movement of people and mobile nodes causes fluctuation namely **time-correlated fluctuation**, can drasctically reduce the efficiency of positioning system.
+- Interference of signal of same frequency.
+- Measurement quality across devices varies.
+- Not all access point are reliable.
+- RSSI values recorded are quantized.
+- At a single location RSSI values have an s.d of 2.5 dBm
+- Chained GP or warped GP.
+- Problem of bimodality (two locations may have same mesaurements)
+- an change mean value of RSSI. So, orientation should be also included.
+- RSSI values drastically changes in presence of other users or change in furniture of the room.
+- Movement of user causes fluctuation called small scale fading.
+- Movement of device also causes large fluctations
+- **Gaussian or log-normal** used to measure the variation in RSSI measurement.
+- movement of people and mobile nodes causes fluctuation namely **time-correlated fluctuation**, can drasctically reduce the efficiency of positioning system.
+- Interference of signal of same frequency.
+- Measurement quality across devices varies.
+- Not all access point are reliable.
+- RSSI values recorded are quantized.
+- At a single location RSSI values have an s.d of 2.5 dBm
+- Chained GP or warped GP.
+- Two effects: Small scale fading and large scale fading.
+		- Large scale fading: Path loss model. due to distance
+		- Small scele fading: multipath, no line of sight( modeled as Rayleigh distribution.), line of sight(modeled as Rician distribution)
+- High dBm values (greater than -80 dBm), the distribution is **left skewed**. **symmetric** when around -80 dBm, hence modeled as log normal.
+- Different make of devices give different distribution of RSSI values. 
+- So the distribution varies with duration of measurements recorded. Left skewed, right skewed. 
+- 
 
