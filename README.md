@@ -25,5 +25,9 @@
 - 
 
 
+### Dynamic Model 
+- It was decided to use the coordinated turn model.
+
+
 
 
