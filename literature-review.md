@@ -111,6 +111,5 @@
 		- Small scele fading: multipath, no line of sight( modeled as Rayleigh distribution.), line of sight(modeled as Rician distribution)
 - High dBm values (greater than -80 dBm), the distribution is **left skewed**. **symmetric** when around -80 dBm, hence modeled as log normal.
 - Different make of devices give different distribution of RSSI values. 
-- So the distribution varies with duration of measurements recorded. Left skewed, right skewed. 
-- 
+- So the distribution varies with duration of measurements recorded. Left skewed, right skewed.
 
