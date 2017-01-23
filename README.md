@@ -22,7 +22,7 @@
 
 ### Dynamic Model
 - So, we will be using the constant turn - constant velocity model with states being location(x coordinate and y coordinate), velocity (v), angular velocity (omega)
-- 
+ 
 
 
 ### Dynamic Model 
