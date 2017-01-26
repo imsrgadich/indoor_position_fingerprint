@@ -13,12 +13,12 @@ function [ Kx ] = gaussian_kernel( X1, X2, len_scale,signal_var)
     n1 = size(X1,1);
     n2 = size(X2,1);
     
-    X1 = bsxfun(@rdivide,X1,len_scale);
-    X2 = bsxfun(@rdivide,X2,len_scale);
+    X1 = X1./len_scale;
+    X2 = X2./len_scale;
     
-    D = 0.5*(diag(X1*X1')*ones(1,n2) + ones(n1,1)*diag(X2*X2')' - 2*X1*X2');
+    D = diag(X1*X1')*ones(1,n2) + ones(n1,1)*diag(X2*X2')' - 2*X1*X2';
     
-    Kx = signal_var*exp(-D);
+    Kx = signal_var*exp(- D ./2);
 
     
 end
