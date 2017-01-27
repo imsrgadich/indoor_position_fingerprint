@@ -39,29 +39,50 @@ test_points = [X_test(:) Y_test(:)];
 
 % Using the GPStuff 4.6 package (using few initial parameter values as 
 % given in the toolbox)
-lik = lik_gaussian('sigma2',1^2);
+lik = lik_gaussian('sigma2',5^2);
 
 % select length scale for two directions (for simplicity not considering 
 % change in floors), using squared exponential covariance function.
 gpcf = gpcf_sexp('lengthScale',[6.5 6.5],'magnSigma2',2.5^2);  
 
 % Setting the prior for the noise in the measurement likelihood model
-pn = prior_logunif();
+pn = prior_loggaussian('mu',3.75,'s2',1);
 lik = lik_gaussian(lik,'sigma2_prior',pn);
-
-% Priors for the parameters of the covariance fucntion. 
-pl = prior_unif();
-pm = prior_sqrtunif();
-gpcf = gpcf_sexp(gpcf,'lengthScale_prior',pl,'magnSigma2_prior',pm);
+% 
+% % Priors for the parameters of the covariance fucntion. 
+% pl = prior_gaussian('mu',6.5,'s2',10);
+% pm = prior_gaussian('mu',4,'s2',3);
+% gpcf = gpcf_sexp(gpcf,'lengthScale_prior',pl,'magnSigma2_prior',pm);
 
 % Creating the GP model structure
 gp2 = gp_set('lik',lik,'cf',gpcf);
 
 % Optimizing the parameter values
 opt = optimset('TolFun',1e-3,'TolX',1e-3,'Display','iter');
-gp=gp_optim(gp2,reference_map(:,1:2),reference_map(:,4),'opt',opt);
 
-%% %% Fixed hyperparameters
+for i = 1:13
+    gp=gp_optim(gp2,reference_map(:,1:2),reference_map(:,i),'opt',opt);
+    w(i,:) = gp_pak(gp);
+    [mean, Var] = gp_pred(gp, reference_map(:,1:2),reference_map(:,i), test_points);
+    mean_matrix=vec2mat(mean,size(X_test,2));
+    figure(i), surf(X_test,Y_test,mean_matrix)
+    axis tight, hold on
+    plot3(train_points(:,1),train_points(:,2),reference_map(:,i),...
+                                '.','MarkerSize',30, 'MarkerFaceColor','r')
+    hold off
+end
+
+
+
+
+
+
+
+
+
+
+
+%% %% Fixed hyperparameters for testing
 % epsilon = 1^2;    % noise variance
 % signal_var = 2.5^2;
 % length_scale = [6.5 6.5]; % what if we have a wall?
