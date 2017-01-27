@@ -39,20 +39,20 @@ test_points = [X_test(:) Y_test(:)];
 
 % Using the GPStuff 4.6 package (using few initial parameter values as 
 % given in the toolbox)
-lik = lik_gaussian('sigma2',5^2);
+lik = lik_gaussian('sigma2',4^2);
 
 % select length scale for two directions (for simplicity not considering 
 % change in floors), using squared exponential covariance function.
 gpcf = gpcf_sexp('lengthScale',[6.5 6.5],'magnSigma2',2.5^2);  
 
 % Setting the prior for the noise in the measurement likelihood model
-pn = prior_loggaussian('mu',3.75,'s2',1);
+pn = prior_gaussian('mu',4,'s2',2);
 lik = lik_gaussian(lik,'sigma2_prior',pn);
 % 
 % % Priors for the parameters of the covariance fucntion. 
-% pl = prior_gaussian('mu',6.5,'s2',10);
-% pm = prior_gaussian('mu',4,'s2',3);
-% gpcf = gpcf_sexp(gpcf,'lengthScale_prior',pl,'magnSigma2_prior',pm);
+pl = prior_gaussian('mu',6.5,'s2',3);
+pm = prior_gaussian('mu',4,'s2',3);
+gpcf = gpcf_sexp(gpcf,'lengthScale_prior',pl,'magnSigma2_prior',pm);
 
 % Creating the GP model structure
 gp2 = gp_set('lik',lik,'cf',gpcf);
@@ -65,22 +65,15 @@ for i = 1:13
     w(i,:) = gp_pak(gp);
     [mean, Var] = gp_pred(gp, reference_map(:,1:2),reference_map(:,i), test_points);
     mean_matrix=vec2mat(mean,size(X_test,2));
+    var_matrix=vec2mat(Var,size(X_test,2));
+    var_plus_matrix = mean_matrix + 2*sqrt(var_matrix);
+    var_minus_matrix = mean_matrix - 2*sqrt(var_matrix);
     figure(i), surf(X_test,Y_test,mean_matrix)
     axis tight, hold on
     plot3(train_points(:,1),train_points(:,2),reference_map(:,i),...
                                 '.','MarkerSize',30, 'MarkerFaceColor','r')
     hold off
 end
-
-
-
-
-
-
-
-
-
-
 
 %% %% Fixed hyperparameters for testing
 % epsilon = 1^2;    % noise variance
