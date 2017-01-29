@@ -1,3 +1,4 @@
+function [m,P,pf] = particle_filter(sx,y,w,r,T,options,iter)
 % particleFilter Implementation of Particle Filter with PSIS
 %
 % Syntax:
@@ -40,25 +41,6 @@
 %   See Pg. 117 of Bayesian Filtering and Smoothing, Simo Särkkä.
 %   
 % Set the PSIS flag (default: no PSIS) before the function is called.
-%
-% =========================================================================
-% Info for PSIS_switch flag.
-%  0  for kHat resampling without PSIS smoothed weights
-%  1  for kHat resampling with PSIS smoothed weights
-%  2  for smoothing only when kHat is greater than 0
-%  3  for smoothing only when kHat is greater than 0.05
-%  4  for smoothing only when kHat is greater than 0.10
-%  5  for smoothing only when kHat is greater than 0.15
-%  6  for smoothing only when kHat is greater than 0.20
-%  7  for smoothing only when kHat is greater than 0.25
-%  8  for smoothing only when kHat is greater than 0.30
-%  9  for smoothing only when kHat is greater than 0.35
-%  10 for smoothing only when kHat is greater than 0.40
-%  11 for smoothing only when kHat is greater than 0.45
-%  12 for smoothing only when kHat is greater than 0.50
-%==========================================================================
-
-function [m,P,pf] = particleFilter(sx,y,w,r,T,options,iter)
 
 nS= size(sx,1); % Number of particles
 H = options.H;
