@@ -4,7 +4,7 @@ function [ Kx ] = gaussian_kernel( X1, X2, len_scale,signal_var)
 % INPUTS:
 % X1:           matrix of size n1 * dimension
 % X2:           matrix of size n2 * dimension
-% len_scale:    length scale
+% len_scale:    length scale size 1 * dimension
 % signal_var:   signal variance
 %
 % OUTPUTS:
