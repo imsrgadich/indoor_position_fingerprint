@@ -24,8 +24,8 @@ max_train_data = max(train_data(:));
 mean_train_data = mean(train_data(:),1);
 std_train_data = std(train_data(:));
 
-norm_ref_map = (training_data - min_train_data)/(max_train_data - min_train_data);
-mean_norm_ref_map = (training_data - mean_train_data)/(std_train_data);
+norm_ref_map = (train_data - min_train_data)/(max_train_data - min_train_data);
+mean_norm_ref_map = (train_data - mean_train_data)/(std_train_data);
 % TODO: interpolate the values.
 
 % %% use k-NN for interpolating model: k=1
@@ -50,11 +50,11 @@ test_points = [X_test(:) Y_test(:)];
 % given in the toolbox)
 clear ('gp','gpcf','lik','pn','pl','pm','w','opt')
 
-lik = lik_gaussian('sigma2',1^2);
+lik = lik_gaussian('sigma2',30^2);
 
 % % select length scale for two directions (for simplicity not considering 
 % % change in floors), using squared exponential covariance function.
-gpcf = gpcf_sexp('lengthScale',[2 2],'magnSigma2',2^2);  
+gpcf = gpcf_sexp('lengthScale',[100 100],'magnSigma2',20^2);  
 % 
 % % Setting the prior for the noise in the measurement likelihood model
 % pn = prior_gaussian('mu',4,'s2',2);
