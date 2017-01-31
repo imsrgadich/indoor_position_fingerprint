@@ -1,4 +1,4 @@
-function [m,P,pf] = particle_filter(sx,Y,w,r,T,options)
+function [m,P,pf] = particle_filter(sx,Y,w,r,time_step,options)
 % particleFilter Implementation of Particle Filter 
 %
 % Syntax:
@@ -9,7 +9,7 @@ function [m,P,pf] = particle_filter(sx,Y,w,r,T,options)
 %   y       - measurements. (N x N_measmsnts; see below for description)
 %   w       - weights 
 %   r       - random samples from standard normal distribution
-%   T       - Time step
+%   time_step       - Time step
 %   options - Structure with following elements. 
 %       N          - Number of data points
 %       N_states   - dimension of states 
@@ -43,6 +43,7 @@ function [m,P,pf] = particle_filter(sx,Y,w,r,T,options)
 
 nS= size(sx,1); % Number of particles
 theta = options.theta;
+T = options.T;
 % pf.resamp = 0;
 % pf.uniq = nS;
 % pf.fail = 0;
@@ -60,14 +61,19 @@ ydot = sx(:,3)*sin(theta);
 omega = sx(:,4);
 
 %Bootstrap Filter
-pf.SX = options.f(x,xdot,y,ydot,omega) +...
-                r * chol(options.g(options.T)*options.Q,'lower'); % dynamic model
-pf.w = log(w) + gp_loglikelihood(sx(:,1:2),Y,options);
-
+pf.SX = options.f(x',xdot',y',ydot',T,omega')' +...
+                r * chol(options.Q,'lower'); % dynamic model
+%                 r * chol(options.g(options.T)*options.Q*options.g(options.T)','lower'); % dynamic model
+if options.meas_model_switch ==1
+    log_w = log(w) + gp_loglikelihood(pf.SX(:,1:2),Y,options);
+else
+    log_w = log(w) + log(knn_likelihood(pf.SX(:,1:2),Y,options));
+end
+pf.w = exp(log_w-max(log_w));
 
 % Normalize the weights
 pf.w  = pf.w / sum(pf.w);
-pf.wr = pf.w;
+
 
 % Depending on PSIS flag either check effective number of sample or get the
 % khat value (also PSIS smoothed weights)
@@ -75,86 +81,78 @@ pf.wr = pf.w;
     % Get the PSIS shape parameter and log weights else get neff
 %     [log_psis_w,pf.kHat] = psislw(log(pf.w),options.tailPrct);
 %     pf.w = exp(log_psis_w);
-  
-pf.neff = (sum(pf.w.^2))^-1;
+[~,pf.kHat] = psislw(log(pf.w),20);  
+%pf.neff = (sum(pf.w.^2))^-1;
 
-%Get the mean based on the resamp_switch
-if options.resamp_switch == 0
-    m = sum(repmat(pf.w,1,options.N_states) .* pf.SX,1);
-    SX_m = bsxfun(@minus,pf.SX,m);
-    P = (repmat(pf.w,1,options.N_states) .* SX_m)'*SX_m;
-else
-    key = 1;
-    if options.resamp_switch == 2
-        key = mod(T,options.steps);
-    end
-    
-    if  options.resamp_switch == -1
-        if options.PSIS == 1
-            if pf.kHat > options.kHat_thres
-                key = 0;
-            end
-        elseif pf.neff < nS * options.neff_thres;  %%nS/10
-            key = 0;
-        end
-    end
-                
-       
-    if options.resamp_switch == 1
-        key = 0;
-    end
-    
-    if key == 0
-        try
-            pf.resamp = 1;
-            %dbstop if infnan
-            ind = resampstr(pf.w);
-            pf.uniq = length(unique(ind));
-            pf.SX   = pf.SX(ind,:);
-            m = mean(pf.SX);
-            pf.w = (1/nS)*ones(nS,1);
-            SX_m = bsxfun(@minus,pf.SX,m);
-            P = (repmat(pf.w,1,options.N_states) .* SX_m)'*SX_m;
-        catch
-            pf.fail = 1;
-            m = zeros(1,options.N_states);
-            P = zeros(options.N_states,options.N_states);
-            warning('Complete particle weight degeneration (%d partilces,%d time, iteration %d).'...
-                                                          , nS, T, iter)
-            return
-        end
-    elseif (key ~= 0 && options.resamp_switch == 2) || ...
-           (options.resamp_switch == -1)
-        m = sum(repmat(pf.w,1,options.N_states) .* pf.SX);
-        SX_m = bsxfun(@minus,pf.SX,m);
-        P = (repmat(pf.w,1,options.N_states) .* SX_m)'*SX_m;
-    end
-end
-end
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function likelihood = gp_loglikelihood(x,y,options)
-
-likelihood = zeros(size(x,1),1);
-parameters = exp(options.parameters);
-train_data = options.locations;
-reference_map = options.reference_map(:,3:end);
-
-for i = 1:size(options.parameters,1)
-    for j = 1:length(y)
-        K = gaussian_kernel(train_data,train_data,parameters(i,3:4),parameters(i,2))+ parameters(i,1)+parameters(i,5);
-        k_star = gaussian_kernel(train_data,x,parameters(i,3:4),parameters(i,2)) + parameters(i,1);
-        K_ = gaussian_kernel(x,x,parameters(i,3:4),parameters(i,2)) + parameters(i,1);
-        
-        L = chol(K,'lower');
-        Lk = L \ k_star;
-        
-        mean_star = Lk'*(L\reference_map(:,i));
-        sigma2_star = sqrt(abs(diag(K_)' - sum(Lk.^2))');
-        likelihood = likelihood + log(normpdf(y(i),mean_star,sigma2_star));
-    end
-end
+ if pf.kHat > 0.7
+     pf.resamp = 1;
+     %dbstop if infnan
+     ind = resampstr(pf.w);
+     pf.uniq = length(unique(ind));
+     pf.SX   = pf.SX(ind,:);
+     m = mean(pf.SX);
+     pf.w = (1/nS)*ones(nS,1);
+     SX_m = bsxfun(@minus,pf.SX,m);
+     P = (repmat(pf.w,1,options.N_states) .* SX_m)'*SX_m;
+ else
+     m = sum(repmat(pf.w,1,options.N_states) .* pf.SX,1);
+     SX_m = bsxfun(@minus,pf.SX,m);
+     P = (repmat(pf.w,1,options.N_states) .* SX_m)'*SX_m;
+ end
 
 
 
+
+% %Get the mean based on the resamp_switch
+% if options.resamp_switch == 0
+%     m = sum(repmat(pf.w,1,options.N_states) .* pf.SX,1);
+%     SX_m = bsxfun(@minus,pf.SX,m);
+%     P = (repmat(pf.w,1,options.N_states) .* SX_m)'*SX_m;
+% else
+%     key = 1;
+%     if options.resamp_switch == 2
+%         key = mod(T,options.steps);
+%     end
+%     
+%     if  options.resamp_switch == -1
+%         if options.PSIS == 1
+%             if pf.kHat > options.kHat_thres
+%                 key = 0;
+%             end
+%         elseif pf.neff < nS * options.neff_thres;  %%nS/10
+%             key = 0;
+%         end
+%     end
+%                 
+%        
+%     if options.resamp_switch == 1
+%         key = 0;
+%     end
+%     
+%     if key == 0
+%         try
+%             pf.resamp = 1;
+%             %dbstop if infnan
+%             ind = resampstr(pf.w);
+%             pf.uniq = length(unique(ind));
+%             pf.SX   = pf.SX(ind,:);
+%             m = mean(pf.SX);
+%             pf.w = (1/nS)*ones(nS,1);
+%             SX_m = bsxfun(@minus,pf.SX,m);
+%             P = (repmat(pf.w,1,options.N_states) .* SX_m)'*SX_m;
+%         catch
+%             pf.fail = 1;
+%             m = zeros(1,options.N_states);
+%             P = zeros(options.N_states,options.N_states);
+%             warning('Complete particle weight degeneration (%d partilces,%d time, iteration %d).'...
+%                                                           , nS, T, iter)
+%             return
+%         end
+%     elseif (key ~= 0 && options.resamp_switch == 2) || ...
+%            (options.resamp_switch == -1)
+%         m = sum(repmat(pf.w,1,options.N_states) .* pf.SX);
+%         SX_m = bsxfun(@minus,pf.SX,m);
+%         P = (repmat(pf.w,1,options.N_states) .* SX_m)'*SX_m;
+%     end
+% end
 end

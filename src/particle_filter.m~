@@ -1,4 +1,4 @@
-function [m,P,pf] = particle_filter(sx,Y,w,r,T,options)
+function [m,P,pf] = particle_filter(sx,Y,w,r,time_step,options)
 % particleFilter Implementation of Particle Filter 
 %
 % Syntax:
@@ -9,7 +9,7 @@ function [m,P,pf] = particle_filter(sx,Y,w,r,T,options)
 %   y       - measurements. (N x N_measmsnts; see below for description)
 %   w       - weights 
 %   r       - random samples from standard normal distribution
-%   T       - Time step
+%   time_step       - Time step
 %   options - Structure with following elements. 
 %       N          - Number of data points
 %       N_states   - dimension of states 
@@ -43,6 +43,7 @@ function [m,P,pf] = particle_filter(sx,Y,w,r,T,options)
 
 nS= size(sx,1); % Number of particles
 theta = options.theta;
+T = options.T;
 % pf.resamp = 0;
 % pf.uniq = nS;
 % pf.fail = 0;
@@ -60,14 +61,15 @@ ydot = sx(:,3)*sin(theta);
 omega = sx(:,4);
 
 %Bootstrap Filter
-pf.SX = options.f(x,xdot,y,ydot,omega) +...
-                r * chol(options.g(options.T)*options.Q,'lower'); % dynamic model
-pf.w = log(w) + gp_loglikelihood(sx(:,1:2),Y,options);
-
+pf.SX = options.f(x',xdot',y',ydot',T,omega')' +...
+                r * chol(options.Q,'lower'); % dynamic model
+%                 r * chol(options.g(options.T)*options.Q*options.g(options.T)','lower'); % dynamic model
+log_w = log(w) + gp_loglikelihood(pf.SX(:,1:2),Y,options);
+pf.w = exp(log_w-max(log_w));
 
 % Normalize the weights
 pf.w  = pf.w / sum(pf.w);
-pf.wr = pf.w;
+
 
 % Depending on PSIS flag either check effective number of sample or get the
 % khat value (also PSIS smoothed weights)
@@ -75,8 +77,8 @@ pf.wr = pf.w;
     % Get the PSIS shape parameter and log weights else get neff
 %     [log_psis_w,pf.kHat] = psislw(log(pf.w),options.tailPrct);
 %     pf.w = exp(log_psis_w);
-  
-pf.neff = (sum(pf.w.^2))^-1;
+[~,pf.kHat] = psislw(log(pf.w),20);  
+%pf.neff = (sum(pf.w.^2))^-1;
 
 %Get the mean based on the resamp_switch
 if options.resamp_switch == 0
@@ -130,29 +132,4 @@ else
         P = (repmat(pf.w,1,options.N_states) .* SX_m)'*SX_m;
     end
 end
-end
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function likelihood = gp_loglikelihood(x,y,options)
-
-likelihood = zeros(size(x));
-parameters = exp(options.parameters);
-train_data = options.locations;
-reference_map = options.reference_map(:,3:end);
-
-for i = 1:size(options.parameters,1)
-    K = gaussian_kernel(train_data,train_data,parameters(i,3:4),parameters(i,2))+ parameters(i,1)+parameters(i,5);
-    k_star = gaussian_kernel(train_data,x,parameters(i,3:4),parameters(i,2)) + parameters(i,1);
-    K_ = gaussian_kernel(x,x,parameters(i,3:4),parameters(i,2)) + parameters(i,1);
-    
-    L = chol(K,'lower');
-    Lk = L \ k_star;
-    
-    mean_star = Lk'*(L\reference_map(:,i));
-    sigma2_star = K_ - Lk'*Lk;
-    likelihood = likelihood + log(mvnpdf(y(i),mean_star,sigma2_star));
-end
-
-
-
 end
