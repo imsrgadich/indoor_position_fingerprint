@@ -7,6 +7,7 @@ test_text_files = {'../data/test/1001_113436.txt';
               '../data/test/1001_113915.txt';
               '../data/test/1001_114004.txt';
               '../data/test/1001_114142.txt';
+              '../data/test/0702_083456.txt';
               };
           
 test_data = {};

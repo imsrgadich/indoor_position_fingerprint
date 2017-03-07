@@ -1,5 +1,5 @@
 function [m,P,pf] = particle_filter(sx,Y,w,r,time_step,options)
-% particleFilter Implementation of Particle Filter 
+% particleFilter Implementation of PSIS Particle Filter 
 %
 % Syntax:
 %   [m,pf] = particleFilter(sx,y,w,r,T,options,iter)
@@ -10,20 +10,7 @@ function [m,P,pf] = particle_filter(sx,Y,w,r,time_step,options)
 %   w       - weights 
 %   r       - random samples from standard normal distribution
 %   time_step       - Time step
-%   options - Structure with following elements. 
-%       N          - Number of data points
-%       N_states   - dimension of states 
-%       N_measmnts - dimension of measurements
-%       Q          - system noise covariance
-%       R          - measurement noise covariance
-%       A          - dynamic model matrix
-%       H          - measurement model matrix
-%       Am         - Dynamic model matrix for stochastic oscillator
-%       PSIS       - flag, PSIS part will run only ifX1.
-%       PSIS_switch- flag for smoothing, from 0 to 12. More info below.
-%       kHat_thres - 0.7 or 1, threshold beyond which resampling is done.
-%       PSIS_smooth- flag, PSIS smoothing only when 1
-%       iter       - MC iteration
+%   options - Structure with options. #TODO 
 %
 % Out:
 %   m   - Estimated state values (N x N_states)
@@ -32,8 +19,6 @@ function [m,P,pf] = particle_filter(sx,Y,w,r,time_step,options)
 %       w           - weights
 %       neff        - Effective Sample size
 %       kHat        - Pareto shape parameter
-%       resamp      - is set when resampling is done
-%       uniq        - gives the count of unique particles after resampling
 %
 % Description:
 %   Gives the Particle filter estimate for the given measuremenent values.
@@ -54,14 +39,14 @@ T = options.T;
 %     imp_cal = log_mvnpdf(pf.SX,options.m_IS(sx,y,A),options.P_IS);
 %     log_w = log(w)+meas_cal+dyn_cal-imp_cal;
 %     pf.w = exp(log_w - max(log_w));
-x = sx(:,1);
-y = sx(:,2);
-xdot = sx(:,3)*cos(theta);
-ydot = sx(:,3)*sin(theta);
-omega = sx(:,4);
+% x = sx(:,1);
+% y = sx(:,2);
+% xdot = sx(:,3)*cos(theta);
+% ydot = sx(:,3)*sin(theta);
+% omega = sx(:,4);
 
 %Bootstrap Filter
-pf.SX = options.f(x',xdot',y',ydot',T,omega')' +...
+pf.SX = sx*options.A(options.T)' +...
                 r * chol(options.Q,'lower'); % dynamic model
 %                 r * chol(options.g(options.T)*options.Q*options.g(options.T)','lower'); % dynamic model
 if options.meas_model_switch ==1

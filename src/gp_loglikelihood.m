@@ -16,11 +16,14 @@ for i = 1:size(options.parameters,1)
         Lk = L \ k_star;
         
         mean_star = Lk'*(L\reference_map(:,i));
-        mean_star(mean_star < -100 | mean_star > -50) = -100;
+        mean_star(mean_star < -100 | mean_star > -50 | (0>x(:,1) | x(:,1)>40) | (-3>x(:,2) | x(:,2)>5.35)) = -100;
+        
+
         sigma_star = sqrt(abs(diag(K_)' - sum(Lk.^2))');
         %sigma2_star_temp = K_ - (Lk'*Lk);
-        for j = 1:length(y)
-            likelihood = likelihood - (0.5*(y(j)-mean_star).^2)./sigma_star.^2 - 0.5*log(2*pi*sigma_star.^2);
-        end
+        
+      likelihood = likelihood - (0.5*(y(i)-mean_star).^2)./sigma_star.^2 - 0.5*log(2*pi*sigma_star.^2);
+        %likelihood(:,i) = (0.5*(y(i)-mean_star).^2)./sigma_star.^2 - 0.5*log(2*pi*sigma_star.^2);
+   
 end
 end

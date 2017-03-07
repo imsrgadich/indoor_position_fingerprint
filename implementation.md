@@ -1,4 +1,4 @@
-## Gaussian Process
+# Gaussian Process
 - Need to give length scale to all the directions.
 - Giving length scale [1.5 1.5], what if we have a wall in between. So signal strength will change drastically.
 - what grid do we need? 0.1 grid takes a lot of time. 33000 points?
