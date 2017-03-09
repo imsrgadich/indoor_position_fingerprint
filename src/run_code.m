@@ -3,7 +3,7 @@ clf;
 %% Switch to select measurement model
 % 1 for GP
 % 2 for k-NN
-options.meas_model_switch =1;
+options.meas_model_switch =2;
 
 %% load the parameters from GP regression training.
 load('../data/parameter_trained.mat')
