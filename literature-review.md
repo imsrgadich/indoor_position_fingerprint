@@ -86,7 +86,7 @@
 - Movement of user causes fluctuation called small scale fading.
 - Movement of device also causes large fluctations
 - **Gaussian or log-normal** used to measure the variation in RSSI measurement.
-- movement of people and mobile nodes causes fluctuation namely **time-correlated fluctuation**, can drasctically reduce the efficiency of positioning system.
+- movement of people and mobile nodes causes fluctuation namely **time-correlated fluctuation**, can drasctically reduce the efficiency of positioning system. Kaemarungsi et al, 2012
 - Interference of signal of same frequency.
 - Measurement quality across devices varies.
 - Not all access point are reliable.
