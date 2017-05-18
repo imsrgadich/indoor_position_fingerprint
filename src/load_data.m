@@ -59,7 +59,20 @@ function [t, id_beacon, y, t_imu, id_imu, y_imu, t_wifi, id_wifi, y_wifi] = load
          7, 'FC:53:69:7A:5C:4B';
          8, 'D7:2B:87:29:F1:23';
          9, 'E5:CC:23:DC:7E:1B';
-        10, 'C2:24:B6:F1:58:C5';
+        10, 'C2:24:B6:F1:58:C5';all fields of the template format string
+                % could be matched by looking at the no. of rows in the
+                % last data field. It is 0 if not all fields could be
+                % matched and 1 if it could be matched. If it could be
+                % matched, it should be that this is the correct tamplate
+                % and we accept it.
+                if size(data{end}, 1) == 1
+                    parsed = true;
+                else
+                    iFormats = iFormats+1;
+                end
+            end
+            
+            if ~parsed
         11, 'CE:FA:1D:8D:48:28';
         12, 'DA:8A:9C:57:49:E2';
         13, 'CA:F0:7A:87:90:12';

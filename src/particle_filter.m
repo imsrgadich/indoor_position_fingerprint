@@ -1,4 +1,3 @@
-function [m,P,pf] = particle_filter(sx,Y,w,r,time_step,options)
 % particleFilter Implementation of PSIS Particle Filter 
 %
 % Syntax:
@@ -25,6 +24,8 @@ function [m,P,pf] = particle_filter(sx,Y,w,r,time_step,options)
 %   See Pg. 117 of Bayesian Filtering and Smoothing, Simo Särkkä.
 %   
 % Set the PSIS flag (default: no PSIS) before the function is called.
+
+function [m,P,pf] = particle_filter(sx,Y,w,r,time_step,options)
 
 nS= size(sx,1); % Number of particles
 theta = options.theta;
