@@ -51,34 +51,56 @@ function [t, id_beacon, y, t_imu, id_imu, y_imu, t_wifi, id_wifi, y_wifi] = load
     % map
     
     % Lookup Table Beacon ID <-> MAC
-    beacons = {
-         3, 'D2:48:C0:58:92:5F';
-         4, 'F4:2A:FF:C3:13:61';
-         5, 'F6:F4:43:BF:2A:78';
-         6, 'CD:03:21:C3:66:4F';
-         7, 'FC:53:69:7A:5C:4B';
-         8, 'D7:2B:87:29:F1:23';
-         9, 'E5:CC:23:DC:7E:1B';
-        10, 'C2:24:B6:F1:58:C5';all fields of the template format string
-                % could be matched by looking at the no. of rows in the
-                % last data field. It is 0 if not all fields could be
-                % matched and 1 if it could be matched. If it could be
-                % matched, it should be that this is the correct tamplate
-                % and we accept it.
-                if size(data{end}, 1) == 1
-                    parsed = true;
-                else
-                    iFormats = iFormats+1;
-                end
-            end
-            
-            if ~parsed
-        11, 'CE:FA:1D:8D:48:28';
-        12, 'DA:8A:9C:57:49:E2';
-        13, 'CA:F0:7A:87:90:12';
-        14, 'C3:6D:AB:9F:8B:04';
-        15, 'F2:7C:B0:2D:B2:1B';
+%     beacons = {
+%          3, 'D2:48:C0:58:92:5F';
+%          4, 'F4:2A:FF:C3:13:61';
+%          5, 'F6:F4:43:BF:2A:78';
+%          6, 'CD:03:21:C3:66:4F';
+%          7, 'FC:53:69:7A:5C:4B';
+%          8, 'D7:2B:87:29:F1:23';
+%          9, 'E5:CC:23:DC:7E:1B';
+%         10, 'C2:24:B6:F1:58:C5';
+%         11, 'CE:FA:1D:8D:48:28';
+%         12, 'DA:8A:9C:57:49:E2';
+%         13, 'CA:F0:7A:87:90:12';
+%         14, 'C3:6D:AB:9F:8B:04';
+%         15, 'F2:7C:B0:2D:B2:1B';
+%     };
+
+  beacons = {
+        3,'00:13:04:10:8C:AA';
+        4,'00:13:04:10:8B:11';
+        5,'00:13:04:10:8B:1D';
+        6,'00:13:04:10:8B:3F';
+        7,'00:13:04:10:8A:F5';
+        8,'00:13:04:10:8A:F4';
+        9,'00:13:04:10:8B:32';
+        10,'00:13:04:10:8B:44';
+        11,'00:13:04:10:8C:D1';
+        12,'00:13:04:10:8C:A0';
+        13,'00:13:04:10:8B:30';
+        14,'00:13:04:10:8B:26';
+        15,'00:13:04:10:8B:33';
+        16,'00:13:04:10:8B:14';
+        17,'00:13:04:10:8B:E4';
+        18,'00:13:04:10:8B:F3';
+        19,'00:13:04:10:8B:62';
+        20,'00:13:04:10:8B:89';
+        21,'00:13:04:10:8B:65';
+        22,'00:13:04:10:8C:57';
+        23,'00:13:04:10:8C:34';
+        24,'00:13:04:10:8C:27';
+        25,'00:13:04:10:8C:65';
+        26,'00:13:04:10:8C:0F';
+        27,'00:13:04:10:8C:6D';
+        28,'00:13:04:10:8C:4A';
+        29,'00:13:04:10:8C:39';
+        30,'00:13:04:10:8C:6A';
     };
+
+
+
+
 
     % Lookup table for WIFI <-> MAC (as per WIFI present in the building)
     % Mobile app ask user to select WIFI networks mostly used in the
@@ -121,7 +143,8 @@ function [t, id_beacon, y, t_imu, id_imu, y_imu, t_wifi, id_wifi, y_wifi] = load
     % Templates for the different types of data in the file
     formats = {
         '%f%f%f%f%f';       % Regular 3-axial sensor data
-        '%f%f%s%s%f%d%d%s'; % Bluetooth
+%         '%f%f%s%s%f%d%d%s'; % Bluetooth
+        '%s%f%s%s%f'; % Bluetooth for Helvar
         '%f%f%s%s%d%d%d';   % WiFi
     };
 
@@ -140,7 +163,12 @@ function [t, id_beacon, y, t_imu, id_imu, y_imu, t_wifi, id_wifi, y_wifi] = load
     fp = fopen(file);
     done = false;
     while ~done
-        % Get a single line from the file and then try to parse it.
+        % comment this line no needed. I need to skip three lines before
+        % parsing
+        for k=1:3
+            line = fgets(fp);
+        end
+        % Get a single line from the file and then try to parse it.        
         line = fgetl(fp);
         if ~ischar(line)
             done = true;

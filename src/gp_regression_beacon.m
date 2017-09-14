@@ -9,9 +9,9 @@
 %% Task 1: Create the reference map.
 
 % get locations
-load('../data/location.mat')
-load('../data/reference_map/reference_map_updated.mat')
-reference_map = reference_map_updated;
+load('/home/imsrgadich/Documents/gitrepos/aalto/indoor_position_fingerprint/data/helvar_rd/locations.mat')
+% load('../data/aalto_kwarkki/reference_map/reference_map_updated.mat')
+% reference_map = reference_map_updated;
 train_points = location;
 
 % training data from files
@@ -19,11 +19,11 @@ text_files = get_training_data();
           
 % Reference map, RSS values for BLE beacons and WiFi routers and
 % correponding ID's. Check load_data for details.
-%[reference_map, y_beacon, y_wifi,id_beacon,id_wifi] = get_reference_map(train_points,text_files);
+[reference_map, y_beacon, y_wifi,id_beacon,id_wifi] = get_reference_map(train_points,text_files);
 
 % test data: lets just take the mean of the data for now.
-train_data = reference_map(:,3:15);
-test_data = get_test_mean_data();
+train_data = reference_map(:,3:max(id_beacon));
+test_data = get_test_data();
 
 %% Normalize the training points.
 min_train_data = min(train_data(:));
@@ -43,8 +43,8 @@ mean_norm_ref_map = (train_data - mean_train_data)/(std_train_data);
 % % For this we are using GP regression using GPStuff.
 % 
 % predictive locations
-x = 0:1:40;
-y = -3:1:5.35;
+x = 0:1:6;
+y = 0:1:26;
 
 [X_test,Y_test] = meshgrid(x,y);
 test_points = [X_test(:) Y_test(:)];
@@ -99,15 +99,15 @@ gpcf_se = gpcf_sexp('lengthScale', [3 3], 'lengthScale_prior', prior_logunif(), 
 gp = gp_set('lik',lik,'cf',{gpcf_const,gpcf_se});
 opt = optimset('TolFun',1e-3,'TolX',1e-3,'Display','iter');
 
-for i = 1:13
-    [gp]=gp_optim(gp,reference_map(:,1:2),reference_map(:,i+2),'opt',opt);
+for i = 3 : max(id_beacon)
+    [gp]=gp_optim(gp,reference_map(:,1:2),reference_map(:,i),'opt',opt);
     w(i,:) = gp_pak(gp);
-    [mean, var] = gp_pred(gp, reference_map(:,1:2),reference_map(:,i+2), test_points);
-    mean_matrix=vec2mat(mean,size(X_test,2));
+    [mean_gp, var] = gp_pred(gp, reference_map(:,1:2),reference_map(:,i), test_points);
+    mean_matrix=vec2mat(mean_gp,size(X_test,2));
     var_matrix=vec2mat(var,size(X_test,2));
 %     var_plus_matrix = mean_matrix + 2*sqrt(var_matrix);
 %     var_minus_matrix = mean_matrix - 2*sqrt(var_matrix);
-    figure(i), gp_plot(gp,reference_map(:,1:2),reference_map(:,i+2))
+    figure(i), gp_plot(gp,reference_map(:,1:2),reference_map(:,i))
 end
 
 %% %% Fixed hyperparameters for testing

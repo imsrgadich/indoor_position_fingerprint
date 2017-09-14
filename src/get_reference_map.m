@@ -4,18 +4,22 @@
 
 function [map, y_beacon, y_wifi,id_beacon,id_wifi] = get_reference_map(location,files)
 
-% matrix for reference map: # predefined input locations based on the text
-% file and measurements [(x,y) + 13 beacons' RSS + 177 WIFI's RSS]
-map = zeros(size(location,1),15);
           
-for i = 1:size(map,1)
+for i = 1:size(location,1)
+    
+    % Load the data first
     [~, id_beacon, y_beacon, ~, ~, ~, ~, id_wifi, y_wifi] = load_data(files{i});
+    
+    % run only once.
+    if i == 1
+        map = zeros(size(location,1),max(id_beacon));
+    end
     
     % location 
     map(i,1:2) = location(i,:);
     
     % for beacons average value of RSS
-    for j = 3:15 
+    for j = 3:max(id_beacon)
         b_ind = id_beacon == j;
         map(i,j) = mean(y_beacon(b_ind));
     end
