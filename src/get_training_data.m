@@ -1,7 +1,7 @@
 function text_files = get_training_data()
 
 % get the data files
-% Measurement files from SenseServe app
+%%Measurement files from SenseServe app
 % text_files = {'../data/train/1001_104748.txt';
 %               '../data/train/1001_104907.txt';
 %               '../data/train/1001_105101.txt';
@@ -24,13 +24,23 @@ function text_files = get_training_data()
 %               '../data/train/1001_110842.txt';
 %               };
           
-text_files = {
-              '../data/helvar_rd/train/2017.09.06.17.41.09.txt';
-              '../data/helvar_rd/train/2017.09.06.17.43.01.txt';
-              '../data/helvar_rd/train/2017.09.06.17.49.34.txt';
-              '../data/helvar_rd/train/2017.09.06.17.56.25.txt';
-              '../data/helvar_rd/train/2017.09.06.18.01.31.txt';
-              '../data/helvar_rd/train/2017.09.06.18.04.56.txt';
+text_files = {'/home/imsrgadich/Documents/gitrepos/aalto/indoor_position_fingerprint/data/aalto_kwarkki/test_extra/2209_092628_full_power_all.txt'
+              '/home/imsrgadich/Documents/gitrepos/aalto/indoor_position_fingerprint/data/aalto_kwarkki/test_extra/2209_111200_full_power_13.txt'
+              '/home/imsrgadich/Documents/gitrepos/aalto/indoor_position_fingerprint/data/aalto_kwarkki/test_extra/2209_125435_half_power_13.txt'
+              '/home/imsrgadich/Documents/gitrepos/aalto/indoor_position_fingerprint/data/aalto_kwarkki/test_extra/2209_134939_out_half_power.txt'
+              '/home/imsrgadich/Documents/gitrepos/aalto/indoor_position_fingerprint/data/aalto_kwarkki/test_extra/2209_135346_out_full_power.txt'
               };
-          
+               
+% text_files = {
+%               '../data/helvar_rd/train/2017.09.06.17.41.09.txt';
+%               '../data/helvar_rd/train/2017.09.06.17.43.01.txt';
+%               '../data/helvar_rd/train/2017.09.06.17.49.34.txt';
+%               '../data/helvar_rd/train/2017.09.06.17.56.25.txt';
+%               '../data/helvar_rd/train/2017.09.06.18.01.31.txt';
+%               '../data/helvar_rd/train/2017.09.06.18.04.56.txt';
+%               };
+
+
+
+
 end

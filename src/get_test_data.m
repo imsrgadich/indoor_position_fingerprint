@@ -10,9 +10,10 @@ function test_data = get_test_data()
 %               '../data/test/0702_083456.txt';
 %               };
 
-test_text_files = {'../data/helvar_rd/test/2017.09.06.18.08.18.txt';
+test_text_files = {'/home/imsrgadich/Documents/gitrepos/helvar/ble-ip-helvar/data/helvar_rd/test_data/test_meas_1.txt';
+                   '/home/imsrgadich/Documents/gitrepos/helvar/ble-ip-helvar/data/helvar_rd/test_data/test_meas_2.txt'; 
+                   '/home/imsrgadich/Documents/gitrepos/helvar/ble-ip-helvar/data/helvar_rd/test_data/test_meas_3.txt';
               };
-          
 test_data = {};
           
 for i = 1:size(test_text_files,1)

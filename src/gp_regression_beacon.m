@@ -9,10 +9,10 @@
 %% Task 1: Create the reference map.
 
 % get locations
-load('/home/imsrgadich/Documents/gitrepos/aalto/indoor_position_fingerprint/data/helvar_rd/locations.mat')
+%load('/home/imsrgadich/Documents/gitrepos/aalto/indoor_position_fingerprint/data/aalto_kwarkki/location_1.mat')
 % load('../data/aalto_kwarkki/reference_map/reference_map_updated.mat')
 % reference_map = reference_map_updated;
-train_points = location;
+num_train_points = 63;
 
 % training data from files
 text_files = get_training_data();
@@ -86,6 +86,23 @@ test_points = [X_test(:) Y_test(:)];
 
 
 %% Juho
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% lin + sexp + monotonicity
+% subplot(2,2,4)
+% opt=optimset('TolX',1e-1,'TolFun',1e-1,'Display','iter');
+% gpbm=gpa;gpbm.xv=xn(2:2:end);
+% gpbm=gp_monotonic(gpb,xn,y,'z',z,'nvd', 1, 'optimize', 'on', ...
+%                   'opt', opt, 'optimf', @fminlbfgs);
+% gpiabm=gp_ia(gpbm,xn,y,'z',z);
+% gp_plot(gpiabm,xn,y,'z',z,'zt',zt,'target','mu','normdata',nd)
+% hold on
+% plot(d.age,d.y./d.N*1000,'ro')
+% axis([34 65 0 23])
+% xlabel('Age')
+% ylabel('Deaths/1000')
+% title('lin + sexp + monot.')
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 clear ('gp','gpcf','lik','pn','pl','pm','w','opt')
 % likelihood

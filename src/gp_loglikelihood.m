@@ -22,7 +22,7 @@ for i = 1:size(options.parameters,1)
         sigma_star = sqrt(abs(diag(K_)' - sum(Lk.^2))');
         %sigma2_star_temp = K_ - (Lk'*Lk);
         
-      likelihood = likelihood - (0.5*(y(i)-mean_star).^2)./sigma_star.^2 - 0.5*log(2*pi*sigma_star.^2);
+        likelihood = likelihood - (0.5*(y(i)-mean_star).^2)./sigma_star.^2 - 0.5*log(2*pi*sigma_star.^2);
         %likelihood(:,i) = (0.5*(y(i)-mean_star).^2)./sigma_star.^2 - 0.5*log(2*pi*sigma_star.^2);
    
 end
