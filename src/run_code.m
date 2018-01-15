@@ -105,7 +105,11 @@ while ~done
         plot(m_PF(i,1)*26.6+5.5,129-m_PF(i,2)*6.75,'.','MarkerSize',20)
 %         plot(m_PF(i,1),m_PF(i,2),'.','MarkerSize',20)
         % Pause and draw
-%         drawnfow;
+
+        plot(m_PF(i,1)*26.6+5.5,129-m_PF(i,2)*6.75,'.','MarkerSize',20)
+%         plot(m_PF(i,1),m_PF(i,2),'.','MarkerSize',20)
+        % Pause and draw
+%         drawnfow;%         drawnfow;
         pause(.01)
         i = i+1; 
     end
