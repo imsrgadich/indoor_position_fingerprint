@@ -1,6 +1,18 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function likelihood = gp_loglikelihood(x,y,options)
 
+% This function maximizes the joint likelihood with resepct to the position 
+% [1].
+% The GP method here doesn't model the RSSI input error [1].
+% SE and Matern were used as covariance functions. 
+% 
+% [1] M. Aravecchia and S. Messelodi. Gaussian process for rss-based       
+%     localisation. InWireless and Mobile Computing, Networking and 
+%     Communications (WiMob),2014 IEEE 10th International Conference on, 
+%     pages 654659, Oct 2014.
+
+
+
 likelihood = zeros(size(x,1),1);
 parameters = exp(options.parameters);
 train_data = options.locations;
@@ -24,6 +36,7 @@ for i = 1:size(options.parameters,1)
         
       likelihood = likelihood - (0.5*(y(i)-mean_star).^2)./sigma_star.^2 - 0.5*log(2*pi*sigma_star.^2);
         %likelihood(:,i) = (0.5*(y(i)-mean_star).^2)./sigma_star.^2 - 0.5*log(2*pi*sigma_star.^2);
-   
+        
+        %% for the prediction to get the noisy 
 end
 end
